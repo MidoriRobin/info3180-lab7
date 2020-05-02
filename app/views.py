@@ -9,6 +9,7 @@ from app import app
 from flask import render_template, request
 from werkzeug.utils import secure_filename
 from .forms import *
+from flask import jsonify
 ###
 # Routing for your application.
 ###

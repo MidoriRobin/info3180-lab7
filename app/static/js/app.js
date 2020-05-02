@@ -58,13 +58,11 @@ const UploadForm = Vue.component('upload',{
     template:`
     <div>
       <form @submit.prevent="uploadPhoto">
-          <div class="form-group">
-            <label for=>
-          </div>
-            morefans
-          <div class="form-group">
-
-          </div>
+        <label for="description"> Description: </label>
+        <input type="text" id="description" value="">
+        <label for="photofile"> Pic: </label>
+        <input type="image" id="photofile" value="">
+        <input type="submit" value="submit">
       </form>
     </div>
     `,
