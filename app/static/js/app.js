@@ -6,11 +6,14 @@ Vue.component('app-header', {
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-    
+
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
             <router-link class="nav-link" to="/">Home <span class="sr-only">(current)</span></router-link>
+          </li>
+          <li class="nav-item active">
+            <router-link class="nav-link" to="/upload">Upload <span class="sr-only">(current)</span></router-link>
           </li>
         </ul>
       </div>
@@ -49,7 +52,45 @@ const NotFound = Vue.component('not-found', {
     data: function () {
         return {}
     }
-})
+});
+
+const UploadForm = Vue.component('upload',{
+    template:`
+    <div>
+      <form @submit.prevent="uploadPhoto">
+          <div class="form-group">
+            <label for=>
+          </div>
+            morefans
+          <div class="form-group">
+
+          </div>
+      </form>
+    </div>
+    `,
+    data: function () {
+        return {}
+    },
+    methods: {
+        uploadPhoto: function(){
+            let self = this;
+
+            fetch("/api/upload", {
+                method: 'POST'
+            })
+            .then(function (response){
+                return response.json();
+            })
+            .then(function (jsonResponse) {
+                // display a success message
+                console.log(jsonResponse);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+        }
+    }
+});
 
 // Define Routes
 const router = new VueRouter({
@@ -57,7 +98,7 @@ const router = new VueRouter({
     routes: [
         {path: "/", component: Home},
         // Put other routes here
-
+        {path: "/upload", component: UploadForm},
         // This is a catch all route in case none of the above matches
         {path: "*", component: NotFound}
     ]
