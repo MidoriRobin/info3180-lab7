@@ -4,10 +4,11 @@ Jinja2 Documentation:    http://jinja.pocoo.org/2/documentation/
 Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
 This file creates your application.
 """
-
+import os
 from app import app
 from flask import render_template, request
-
+from werkzeug.utils import secure_filename
+from .forms import *
 ###
 # Routing for your application.
 ###
@@ -44,7 +45,37 @@ def form_errors(form):
 
     return error_messages
 
+@app.route("/api/upload", methods=['POST'])
+def upload():
 
+    # Instantiating the form class
+    pPost = UploadForm()
+
+    if request.method == 'POST' and pPost.validate_on_submit():
+
+        photo = pForm.photofile.data
+        desc = pForm.description.data
+        filename = secure_filename(photo.filename)
+
+        photo.save(os.path.join(
+            app.config['UPLOAD_FOLDER'], filename
+        ))
+
+        status = [{
+            "message": "File Upload Successful",
+            "filename": filename,
+            "description": desc
+        }]
+
+        return jsonify(status=status)
+
+    status = {
+        "errors": [
+            form_errors(pPost)
+        ]
+    }
+
+    return jsonify(status=status)
 ###
 # The functions below should be applicable to all Flask apps.
 ###
