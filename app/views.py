@@ -54,10 +54,9 @@ def upload():
 
     if request.method == 'POST' and pPost.validate_on_submit():
 
-        photo = pForm.photofile.data
-        desc = pForm.description.data
+        photo = pPost.photofile.data
+        desc = pPost.description.data
         filename = secure_filename(photo.filename)
-
         photo.save(os.path.join(
             app.config['UPLOAD_FOLDER'], filename
         ))
@@ -69,12 +68,12 @@ def upload():
         }]
 
         return jsonify(status=status)
-
-    status = {
-        "errors": [
-            form_errors(pPost)
-        ]
-    }
+    else:
+        status = {
+            "errors": [
+                form_errors(pPost)
+            ]
+        }
 
     return jsonify(status=status)
 ###

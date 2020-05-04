@@ -54,15 +54,18 @@ const NotFound = Vue.component('not-found', {
     }
 });
 
-const UploadForm = Vue.component('upload',{
+const Upload = Vue.component('upload-form',{
     template:`
     <div>
-      <form @submit.prevent="uploadPhoto">
+      <form @submit.prevent="uploadPhoto" id="uploadForm" method="post" enctype="multipart/form-data">
+
         <label for="description"> Description: </label>
-        <input type="text" id="description" value="">
+        <input type="text" name="description" id="description" value="">
+
         <label for="photofile"> Pic: </label>
-        <input type="image" id="photofile" value="">
-        <input type="submit" value="submit">
+        <input type="file" name="photofile "id="photofile" value="Put Image Here"><br />
+
+        <input type="submit" value="Submit">
       </form>
     </div>
     `,
@@ -72,9 +75,16 @@ const UploadForm = Vue.component('upload',{
     methods: {
         uploadPhoto: function(){
             let self = this;
+            let uploadForm = document.getElementById('uploadForm');
+            let form_data = new FormData(uploadForm);
 
             fetch("/api/upload", {
-                method: 'POST'
+                method: 'POST',
+                body: form_data,
+                headers: {
+                    'X-CSRFToken': token
+                },
+                credentials: 'same-origin'
             })
             .then(function (response){
                 return response.json();
@@ -96,7 +106,7 @@ const router = new VueRouter({
     routes: [
         {path: "/", component: Home},
         // Put other routes here
-        {path: "/upload", component: UploadForm},
+        {path: "/upload", component: Upload},
         // This is a catch all route in case none of the above matches
         {path: "*", component: NotFound}
     ]
@@ -105,5 +115,6 @@ const router = new VueRouter({
 // Instantiate our main Vue Instance
 let app = new Vue({
     el: "#app",
-    router
+    router,
+    delimiters:["<%","$>"]
 });
