@@ -63,7 +63,7 @@ const Upload = Vue.component('upload-form',{
         <input type="text" name="description" id="description" value="">
 
         <label for="photofile"> Pic: </label>
-        <input type="file" name="photofile "id="photofile" value="Put Image Here"><br />
+        <input type="file" name="photofile" id="photofile" value="Put Image Here"><br />
 
         <input type="submit" value="Submit">
       </form>
@@ -77,6 +77,8 @@ const Upload = Vue.component('upload-form',{
             let self = this;
             let uploadForm = document.getElementById('uploadForm');
             let form_data = new FormData(uploadForm);
+
+
 
             fetch("/api/upload", {
                 method: 'POST',

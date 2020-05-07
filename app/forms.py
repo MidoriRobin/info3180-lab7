@@ -8,7 +8,7 @@ class UploadForm(FlaskForm):
     """docstring for UploadForm."""
 
     description = TextAreaField('Description: ', validators=[DataRequired()])
-    photofile = FileField('Photo', validators=[
+    photofile = FileField('photofile', validators=[
         FileRequired(),
-        FileAllowed(['jpg','png','Images only'])
+        FileAllowed(['jpg','png','jpeg','Images only'])
     ])
